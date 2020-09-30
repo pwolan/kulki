@@ -1,8 +1,6 @@
-import { sayHello } from "./greet";
+import Board from "./Board";
+import BallsList from "./BallsList";
 
-function showHello(divName: string, name: string) {
-  const elt = document.getElementById(divName);
-  elt.innerText =  sayHello(name);
-}
-
-showHello("greeting", "TypeScript-Live-Reload-Boilerplate");
+const board = new Board(9);
+const ballsList = new BallsList(board);
+console.log(ballsList);

@@ -1,12 +1,13 @@
 {
-    "compilerOptions": {
-        "outDir": "./dist/",
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es5"
-    },
-    "exclude": [
-      "node_modules"
-    ]
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es5",
+    "lib": ["ES6", "DOM", "DOM.Iterable"]
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
