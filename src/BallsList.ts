@@ -17,6 +17,10 @@ class BallsList {
       this.addNewBall();
     }
     this.board.root.onmousemove = this.handleMouseMove;
+    let cells = document.querySelectorAll(".cell") as NodeList;
+    cells.forEach((cell) => {
+      cell.addEventListener("click", this.handleCellClick);
+    });
   }
   /**
    * add new Ball to list
@@ -46,7 +50,27 @@ class BallsList {
       this.activeBall = null;
     }
   };
+  private handleCellClick = (e: Event) => {
+    if (this.activeBall) {
+      const target = e.target as HTMLDivElement;
+      let id: string;
+      if (target.id) {
+        id = target.id;
+      } else {
+        id = target.parentElement.id;
+      }
+      let end: Point = {
+        x: parseInt(id.split("|")[0]),
+        y: parseInt(id.split("|")[1]),
+      };
+      this.activeBall.move(end);
+      let oldPath = document.querySelectorAll(".path");
+      oldPath.forEach((el) => el.classList.remove("path"));
+    }
+  };
+  // private ballMove(to: Point) {
 
+  // }
   private handleMouseMove = (e: Event) => {
     if (this.activeBall) {
       const target = e.target as HTMLDivElement;
@@ -56,7 +80,6 @@ class BallsList {
       } else {
         id = target.parentElement.id;
       }
-      console.log(id);
       let end: Point = {
         x: parseInt(id.split("|")[0]),
         y: parseInt(id.split("|")[1]),
@@ -71,12 +94,15 @@ class BallsList {
       x: this.activeBall.x,
       y: this.activeBall.y,
     };
-    let path = dijkstra(this.board.boardTab, start, end);
-    console.log(path);
-    path.forEach((cell) => {
-      let el = document.getElementById(`${cell.x}|${cell.y}`) as HTMLDivElement;
-      el.classList.add("path");
-    });
+    let currentBoard = this.board.getBoard(this.elements);
+    let path = dijkstra(currentBoard, start, end);
+    // console.log(path);
+    if (path) {
+      path.forEach((cell) => {
+        let el = document.getElementById(`${cell.x}|${cell.y}`) as HTMLDivElement;
+        el.classList.add("path");
+      });
+    }
   }
 }
 export default BallsList;

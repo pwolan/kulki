@@ -1,5 +1,1 @@
-export enum COLORS {
-  RED = "red",
-  BLUE = "blue",
-  YELLOW = "yellow",
-}
+export const COLORS = ["red", "blue", "green", "yellow", "gray", "royalblue", "black"];

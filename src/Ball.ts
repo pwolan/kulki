@@ -1,9 +1,9 @@
 import { COLORS } from "./colors";
-import { IBall } from "./interfaces";
+import { IBall, Point } from "./interfaces";
 class Ball implements IBall {
   public x: number;
   public y: number;
-  public color: COLORS;
+  public color: string;
   public isActive = false;
   public ballDiv: HTMLDivElement;
   constructor(size: number, private setActiveBall: Function) {
@@ -25,10 +25,9 @@ class Ball implements IBall {
     let randomNumber = Math.floor(Math.random() * max);
     return randomNumber;
   }
-  private randomColor() {
-    // let len = Object.keys(COLORS).length;
-    // let enumValues = Object.keys(COLORS).map((val) => val);
-    return COLORS.BLUE;
+  private randomColor(): any {
+    let index: number = Math.floor(Math.random() * COLORS.length);
+    return COLORS[index];
   }
   public activate() {
     this.isActive = true;
@@ -53,6 +52,15 @@ class Ball implements IBall {
   public checkCollision(ball: Ball): boolean {
     let { x, y } = this;
     return ball.x === x && ball.y === y;
+  }
+  public move(to: Point) {
+    if (this.x === to.x && this.y === to.y) return;
+    // console.log(this);
+    this.x = to.x;
+    this.y = to.y;
+    this.render();
+    this.deactivate();
+    this.setActiveBall(null);
   }
 }
 export default Ball;

@@ -1,9 +1,7 @@
-import { COLORS } from "./colors";
-
 export interface IBall {
   x: number;
   y: number;
-  color: COLORS;
+  color: string;
 }
 export type Point = {
   x: number;

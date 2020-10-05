@@ -1,3 +1,5 @@
+import BallsList from "./BallsList";
+import Ball from "./Ball";
 class Board {
   public boardTab: number[][] = [];
   public root = document.getElementById("board") as HTMLDivElement;
@@ -25,9 +27,21 @@ class Board {
     }
   }
   getSize = () => this.size;
-  // public renderBalls() {
 
-  // }
+  getBoard(ballsList: Ball[]): number[][] {
+    let tab: number[][] = [];
+    for (let i = 0; i < this.size; i++) {
+      tab[i] = [];
+      for (let j = 0; j < this.size; j++) {
+        tab[i][j] = 0;
+      }
+    }
+    for (let ball of ballsList) {
+      let { x, y } = ball;
+      tab[y][x] = 1;
+    }
+    return tab;
+  }
 }
 
 export default Board;
