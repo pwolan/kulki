@@ -1,1 +1,2 @@
-export const COLORS = ["red", "blue", "green", "yellow", "gray", "royalblue", "black"];
+export const COLORS = ["red", "blue", "green", "yellow", "gray", "purple", "black"];
+// export const COLORS = ["red"];

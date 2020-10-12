@@ -1,3 +1,4 @@
+import { cube, invert } from "./decorators";
 import { COLORS } from "./colors";
 import { IBall, Point } from "./interfaces";
 class Ball implements IBall {
@@ -5,15 +6,18 @@ class Ball implements IBall {
   public y: number;
   public color: string;
   public isActive = false;
-  public ballDiv: HTMLDivElement;
-  constructor(size: number, private setActiveBall: Function) {
-    this.x = this.randomPostion(size);
-    this.y = this.randomPostion(size);
+  readonly ballDiv: HTMLDivElement;
+  constructor(private size: number, private setActiveBall: Function) {
     this.color = this.randomColor();
     this.ballDiv = document.createElement("div") as HTMLDivElement;
-    this.render();
   }
-  private render() {
+  public init() {
+    this.x = this.randomPostion(this.size);
+    this.y = this.randomPostion(this.size);
+  }
+  // @cube
+  // @invert(100)
+  public render() {
     let { ballDiv } = this;
     const cell = document.getElementById(`${this.x}|${this.y}`) as HTMLDivElement;
     ballDiv.classList.add("ball");
@@ -21,11 +25,13 @@ class Ball implements IBall {
     ballDiv.style.backgroundColor = this.color;
     cell.appendChild(ballDiv);
   }
-  private randomPostion(max: number) {
+  public getBallDiv = () => this.ballDiv;
+  protected randomPostion(max: number) {
     let randomNumber = Math.floor(Math.random() * max);
     return randomNumber;
   }
-  private randomColor(): any {
+
+  protected randomColor(): any {
     let index: number = Math.floor(Math.random() * COLORS.length);
     return COLORS[index];
   }
@@ -55,12 +61,18 @@ class Ball implements IBall {
   }
   public move(to: Point) {
     if (this.x === to.x && this.y === to.y) return;
-    // console.log(this);
     this.x = to.x;
     this.y = to.y;
     this.render();
     this.deactivate();
     this.setActiveBall(null);
+  }
+  public setColor(color: string) {
+    this.color = color;
+    this.ballDiv.style.backgroundColor = color;
+  }
+  public remove() {
+    this.ballDiv.remove();
   }
 }
 export default Ball;

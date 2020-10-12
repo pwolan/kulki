@@ -1,38 +1,31 @@
-import BallsList from "./BallsList";
+import { Point } from "./interfaces";
 import Ball from "./Ball";
 class Board {
-  public boardTab: number[][] = [];
-  public root = document.getElementById("board") as HTMLDivElement;
+  readonly root = document.getElementById("board") as HTMLDivElement;
   constructor(private size: number) {
-    this.render();
-  }
-  private render() {
     this.buildCells();
-    // this.renderBalls();
   }
   private buildCells() {
     const { size } = this;
     for (let i = 0; i < size; i++) {
       const row: HTMLDivElement = document.createElement("div");
       row.classList.add("row");
-      this.boardTab[i] = [];
       for (let j = 0; j < size; j++) {
         const cell: HTMLDivElement = document.createElement("div");
         cell.classList.add("cell");
         cell.id = `${j}|${i}`;
         row.appendChild(cell);
-        this.boardTab[i][j] = 0;
       }
       this.root.appendChild(row);
     }
   }
   getSize = () => this.size;
 
-  getBoard(ballsList: Ball[]): number[][] {
+  static getBoard(ballsList: Ball[]): number[][] {
     let tab: number[][] = [];
-    for (let i = 0; i < this.size; i++) {
+    for (let i = 0; i < 9; i++) {
       tab[i] = [];
-      for (let j = 0; j < this.size; j++) {
+      for (let j = 0; j < 9; j++) {
         tab[i][j] = 0;
       }
     }
@@ -41,6 +34,27 @@ class Board {
       tab[y][x] = 1;
     }
     return tab;
+  }
+  public clearOldPath() {
+    let oldPath = document.querySelectorAll(".path");
+    oldPath.forEach((el) => el.classList.remove("path"));
+  }
+  public getIdFromCell(cell: HTMLDivElement): Point {
+    let id: string;
+    if (cell.id) {
+      id = cell.id;
+    } else {
+      id = cell.parentElement.id;
+    }
+    let end: Point = {
+      x: parseInt(id.split("|")[0]),
+      y: parseInt(id.split("|")[1]),
+    };
+    return end;
+  }
+  public setScore(num: number) {
+    let scoreDiv = document.getElementById("score") as HTMLDivElement;
+    scoreDiv.textContent = num.toString();
   }
 }
 
