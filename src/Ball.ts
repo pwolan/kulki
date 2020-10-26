@@ -15,8 +15,8 @@ class Ball implements IBall {
     this.x = this.randomPostion(this.size);
     this.y = this.randomPostion(this.size);
   }
-  // @cube
   // @invert(100)
+  @cube
   public render() {
     let { ballDiv } = this;
     const cell = document.getElementById(`${this.x}|${this.y}`) as HTMLDivElement;
